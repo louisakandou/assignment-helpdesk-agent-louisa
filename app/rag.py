@@ -18,8 +18,7 @@ _client = genai.Client(
     http_options=types.HttpOptions(timeout=30000), # batas tunggu 30 detik, supaya tidak menggantung
 )
 KNOWLEDGE_BASE_PATH = "data/it_helpdesk_knowledge_base.csv"
-GENERATION_MODEL = "gemini-3.8-flash"   # model untuk MENJAWAB (beda dengan model embedding)
-
+GENERATION_MODEL = "gemini-3.1-flash-lite"   # 3.8-flash sering 503/504 (beban tinggi); lite stabil ~1 detik
 
 # 🔧 TODO: muat knowledge base dan bangun index FAISS saat aplikasi startup
 # (bukan di setiap request), agar lebih efisien. Pertimbangkan menggunakan
@@ -110,4 +109,4 @@ Pertanyaan karyawan: {query}"""
         model=GENERATION_MODEL,
         contents=prompt,
     )
-    return response.text                           # serahkan teks jawabannya ke router"""
+    return response.text                           # serahkan teks jawabannya ke router
