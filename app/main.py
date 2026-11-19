@@ -39,8 +39,15 @@ async def ask(request: AskRequest):
     pertanyaan informasi/kebijakan ATAU permintaan cek status tiket),
     lalu meneruskannya ke router untuk diproses.
 
-    # TODO: tambahkan error handling untuk kondisi LLM gagal merespons
-    # atau intent tidak dapat dikenali (lihat panduan error handling di Sesi 13.4)
+   
     """
-    result = await handle_query(request.query)
-    return AskResponse(**result)
+    try:
+        result = await handle_query(request.query)
+        return AskResponse(**result)
+    except Exception as e:
+        print(f"[ERROR] /ask gagal: {e}")
+        return AskResponse(
+            status="error",
+            intent="unknown",
+            data="Maaf, layanan AI sedang tidak dapat merespons. Silakan coba beberapa saat lagi atau hubungi tim IT Support.",
+        )

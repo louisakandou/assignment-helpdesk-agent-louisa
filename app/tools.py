@@ -33,7 +33,7 @@ def get_ticket_status(ticket_id: str) -> str:
 
     baris = hasil.iloc[0]
     return (
-        f"Tiket {ticket_id} ({baris['subject']}) : "
+        f"Tiket {ticket_id} ({baris['subject']}): "
         f"status {baris['status']},"
-        f"terkahir diperbaharui {baris['last_update']}"
+        f"terakhir diperbaharui {baris['last_update']}."
     )
