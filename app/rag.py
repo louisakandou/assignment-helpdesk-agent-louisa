@@ -13,6 +13,8 @@ import numpy as np
 import faiss
 from google import genai  # sesuaikan dengan library Gemini API yang digunakan
 from google.genai import types                     # "kotak pengaturan" library Gemini (untuk timeout)
+from dotenv import load_dotenv   # library untuk membaca file .env
+load_dotenv()                    # baca .env (kalau ada) → isinya masuk ke environment variable
 _client = genai.Client(
     api_key=os.environ.get("GEMINI_API_KEY"),      # API key dibaca dari environment variable, bukan hardcode
     http_options=types.HttpOptions(timeout=30000), # batas tunggu 30 detik, supaya tidak menggantung
