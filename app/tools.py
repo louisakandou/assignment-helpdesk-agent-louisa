@@ -29,11 +29,11 @@ def get_ticket_status(ticket_id: str) -> str:
     ticket_id = ticket_id.strip().upper()
     hasil = df[df["ticket_id"] == ticket_id]
     if hasil.empty:
-        return f"Tiket {ticket_id} tidak ditemukan, mohon cek kembali "
+        return f"Tiket {ticket_id} tidak ditemukan, mohon cek kembali"
 
     baris = hasil.iloc[0]
     return (
         f"Tiket {ticket_id} ({baris['subject']}): "
         f"status {baris['status']},"
-        f"terakhir diperbaharui {baris['last_update']}."
+        f"terakhir diperbaharui  {baris['last_update']}."
     )

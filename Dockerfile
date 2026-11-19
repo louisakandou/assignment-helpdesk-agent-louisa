@@ -1,15 +1,26 @@
-# 🔧 TODO: lengkapi Dockerfile berikut mengikuti pola yang sudah dipelajari
-# di Sesi 14.2 (FROM python -> WORKDIR -> COPY -> RUN pip -> CMD).
 
 FROM python:3.11-slim
+# Mulai dari "truk dasar": Linux mini yang sudah berisi Python 3.11.
+# "slim" = versi ramping, ukurannya kecil.
 
 WORKDIR /app
+# Di dalam truk, buat dan masuk ke folder kerja bernama /app.
+# Semua perintah berikutnya dijalankan dari folder ini.
 
-# TODO: copy requirements.txt terlebih dahulu, lalu install dependencies
-# (praktik yang baik agar Docker layer caching bekerja optimal)
+COPY requirements.txt .
+# Salin daftar belanja (requirements.txt) dari laptopmu ke /app di dalam image.
 
-# TODO: copy seluruh source code aplikasi ke dalam container
+RUN pip install --no-cache-dir -r requirements.txt
+# Belanja dan pasang semua library di DALAM image.
+# --no-cache-dir = jangan simpan file sisa download, supaya image lebih kecil.
 
-# TODO: tentukan port yang akan digunakan (misal 8000) dan expose port tersebut
+COPY app/ ./app/
+COPY data/ ./data/
+# Baru salin kode aplikasi dan data CSV ke dalam image.
+# Sengaja HANYA dua folder ini: venv/ dan .env TIDAK ikut masuk.
 
-# TODO: tentukan CMD untuk menjalankan aplikasi FastAPI menggunakan uvicorn
+EXPOSE 8000
+# Catatan: aplikasi di dalam container memakai port 8000.
+
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+# Perintah yang otomatis dijalankan saat container dinyalakan: nyalakan server API.
